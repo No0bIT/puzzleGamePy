@@ -2,8 +2,8 @@ from random import shuffle, choice
 from copy import copy
 from time import time
 
-DIMENSIONS = 4
-CUSTOM_BOARD = [1, 6, 3, 5, 8, 7, 2, 4, 9, 11, 10, 14, 15, 12, 11]
+DIMENSIONS = 3
+CUSTOM_BOARD = [1, 6, 3, 5, 8, 7, 2, 4]
 MAX_DEPTH = 200
 
 class Node(object):
@@ -46,11 +46,10 @@ class Node(object):
 		return children
 	
 	def __list__(self):
-		n = len(str(DIMENSIONS**2-1))
 		result = []
 		for y in range(DIMENSIONS):
 			for x in range(DIMENSIONS):
-				result.append(str(self.board[x,y]).replace("None", "0").ljust(n))		
+				result.append(self.board[x,y] or 0)	
 		return result
 
 
@@ -98,8 +97,7 @@ if __name__ == "__main__":
 	board = create_board(CUSTOM_BOARD)
 	root = Node(None, board, (DIMENSIONS-1, DIMENSIONS-1))
 	print("Board:")
-	for row in root.__list__():
-		print(row)
+	print(root.__list__())
 	start_time = time()
 	end_node, moves = solve(root, root.heuristic)
 	end_time = time() - start_time
